@@ -75,10 +75,23 @@ function createSqliteDb() {
   };
 }
 
+function cleanDatabaseUrl(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== 'string') return '';
+  let url = rawUrl.trim();
+  if (url.startsWith('DATABASE_URL=')) {
+    url = url.slice(13).trim();
+  }
+  if ((url.startsWith('"') && url.endsWith('"')) || (url.startsWith("'") && url.endsWith("'"))) {
+    url = url.slice(1, -1).trim();
+  }
+  return url;
+}
+
 let backend = null;
 function getBackend() {
   if (!backend) {
-    const url = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+    const rawUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+    const url = cleanDatabaseUrl(rawUrl);
     backend = url ? createNeonDb(url) : createSqliteDb();
   }
   return backend;

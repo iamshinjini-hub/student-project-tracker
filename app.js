@@ -39,7 +39,9 @@ export function createApp(db) {
     if (error.type === 'entity.parse.failed') return res.status(400).json({ error: 'Invalid JSON.' });
     if (error.type === 'entity.too.large') return res.status(413).json({ error: 'Request too large.' });
     console.error('Request failed:', error);
-    res.status(500).json({ error: error.message || 'Server error. Check the server terminal.' });
+    const cause = error.sourceError?.cause || error.cause;
+    const causeMsg = cause ? ` (${cause.code || cause.message || cause})` : '';
+    res.status(500).json({ error: `${error.message}${causeMsg}` });
   });
   return app;
 }
