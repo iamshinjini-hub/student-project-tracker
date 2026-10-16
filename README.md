@@ -13,6 +13,11 @@ npm.cmd start
 Open http://localhost:3000. Keep the server terminal running. Stop with Ctrl+C.
 The pinned versions and lockfile are supplied in the released kit. After the first install, use `npm.cmd ci` when restoring dependencies.
 
+## Deploy to Vercel
+Import this repository into Vercel and use the **Other** framework preset. Leave
+the Build Command empty; `vercel.json` configures `public` as the output
+directory, so Vercel serves the static site without starting `server.js`.
+
 ## Files
 `public/index.html`: structure; `public/style.css`: presentation; `public/script.js`: browser behaviour.
 `server.js`: local startup. When present, `app.js`: HTTP API; `database.js`: persistence.
