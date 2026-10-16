@@ -45,7 +45,7 @@ function createNeonDb(databaseUrl) {
 }
 
 function createSqliteDb() {
-  const dbFile = process.env.DB_FILE || 'data/projects.db';
+  const dbFile = process.env.DB_FILE || (process.env.VERCEL ? '/tmp/projects.db' : 'data/projects.db');
   const dir = dirname(dbFile);
   if (dir && dir !== '.') {
     mkdirSync(dir, { recursive: true });

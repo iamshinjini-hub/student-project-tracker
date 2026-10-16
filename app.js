@@ -38,8 +38,8 @@ export function createApp(db) {
   app.use((error, req, res, next) => {
     if (error.type === 'entity.parse.failed') return res.status(400).json({ error: 'Invalid JSON.' });
     if (error.type === 'entity.too.large') return res.status(413).json({ error: 'Request too large.' });
-    console.error('Request failed:', error.code || error.name);
-    res.status(500).json({ error: 'Server error. Check the server terminal.' });
+    console.error('Request failed:', error);
+    res.status(500).json({ error: error.message || 'Server error. Check the server terminal.' });
   });
   return app;
 }
